@@ -61,13 +61,32 @@ public class Player : MonoBehaviour
     {
         cameraTr.position = Vector3.Lerp(cameraTr.position, transform.position - cameraOffset, cameraSmoothLerp);
     }
+
+    // 마지막에 눌렀던 방향으로 이동 시킴
+    List<KeyCode> pressedKeys = new List<KeyCode>();
     private Vector2 Move()
     {
+        if (Input.GetKeyDown(KeyCode.W)) pressedKeys.Add(KeyCode.W);
+        if (Input.GetKeyDown(KeyCode.S)) pressedKeys.Add(KeyCode.S);
+        if (Input.GetKeyDown(KeyCode.D)) pressedKeys.Add(KeyCode.D);
+        if (Input.GetKeyDown(KeyCode.A)) pressedKeys.Add(KeyCode.A);
+
+        if (Input.GetKeyUp(KeyCode.W)) pressedKeys.RemoveAll(x => x == KeyCode.W);
+        if (Input.GetKeyUp(KeyCode.S)) pressedKeys.RemoveAll(x => x == KeyCode.S);
+        if (Input.GetKeyUp(KeyCode.D)) pressedKeys.RemoveAll(x => x == KeyCode.D);
+        if (Input.GetKeyUp(KeyCode.A)) pressedKeys.RemoveAll(x => x == KeyCode.A);
+
+
         Direction currentDirection = Direction.NotMove;
-        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) currentDirection = Direction.Up;
-        else if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) currentDirection = Direction.Down;
-        else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) currentDirection = Direction.Right;
-        else if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) currentDirection = Direction.Left;
+        if (pressedKeys.Count > 0)
+        {
+            KeyCode lastKey = pressedKeys[pressedKeys.Count -1];
+            if (lastKey == KeyCode.W) currentDirection = Direction.Up;
+            if (lastKey == KeyCode.S) currentDirection = Direction.Down;
+            if (lastKey == KeyCode.D) currentDirection = Direction.Right;
+            if (lastKey == KeyCode.A) currentDirection = Direction.Left;
+        }
+
         if (currentDirection != Direction.NotMove)
         {
             direction = currentDirection;
