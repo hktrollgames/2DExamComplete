@@ -95,7 +95,7 @@ public class Player : MonoBehaviour
     {
         string clipName = string.Empty;
         // move의 크기가 0보다 크면 forward방향으로 이동하는 모션을 보여주자.
-        // 이동하지 않으면 없으면 Idle모션을 보여주자.
+        // 이동하지 않으면 Idle모션을 보여주자.
         if ( move.sqrMagnitude > 0) ////이동이 있다(Walk)
         {
             clipName = "Walk";
