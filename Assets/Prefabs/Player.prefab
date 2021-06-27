@@ -149,6 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arrow: {fileID: 4932502478433421363, guid: 9c5915a7d827c9340808cb8268b1c069, type: 3}
+  arrowDelayTime: 0.15
   speed: 5
   cameraTr: {fileID: 0}
   animator: {fileID: 0}

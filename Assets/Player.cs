@@ -6,6 +6,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public GameObject arrow;
+    public float arrowDelayTime = 0.15f;
     public float speed = 5;
     public Transform cameraTr;
     public Animator animator;
@@ -46,7 +47,7 @@ public class Player : MonoBehaviour
     }
 
 
-    Direction direction = Direction.Down;
+    public Direction direction = Direction.Right;
     private Vector2 Move()
     {
         Direction currentDirection = Direction.NotMove;
@@ -89,8 +90,8 @@ public class Player : MonoBehaviour
     private void UpdateSprite(Vector2 move)
     {
         clipName = string.Empty;
-        // move 가 이동이 있으면 forward방향으로 이동하는 모션을 보여주자.
-        // 없으면 Idle모션을 보여주자.
+        // move의 크기가 0보다 크면 forward방향으로 이동하는 모션을 보여주자.
+        // 이동하지 않으면 없으면 Idle모션을 보여주자.
         if ( move.sqrMagnitude > 0) ////이동이 있다(Walk)
         {
             clipName = "Walk";
@@ -109,12 +110,18 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             // 화살 생성.
-            var dir = GetCurrentDirection();
-            Instantiate(arrow, transform.position, dir);
-
-            // 공격 애니메이션 재생.
-            animator.Play("Attack" + direction, 1, 0);
+            StartCoroutine(FireArrowCo());
         }
+    }
+
+    private IEnumerator FireArrowCo()
+    {
+        var dir = GetCurrentDirection();
+
+        // 공격 애니메이션 재생.
+        animator.Play("Attack" + direction, 1, 0);
+        yield return new WaitForSeconds(arrowDelayTime);
+        Instantiate(arrow, transform.position, dir);
     }
 
     private Quaternion GetCurrentDirection()

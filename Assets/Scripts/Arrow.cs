@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class Arrow : MonoBehaviour
 {
+    public int damage = 1;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.transform.GetComponent<Monster>() == null)
+        Monster monster = collision.transform.GetComponent<Monster>();
+        if (monster == null)
             return;
 
-        Destroy(collision.gameObject);
+        monster.OnDamage(damage);
     }
 }
