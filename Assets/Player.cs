@@ -5,13 +5,28 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    Animator animator;
+    public float speed = 5;
+
     public GameObject arrow;
     public float arrowDelayTime = 0.15f;
-    public float speed = 5;
-    public Transform cameraTr;
-    public Animator animator;
 
+    public Transform cameraTr;
     Vector3 cameraOffset;
+    public float cameraSmoothLerp = 0.1f;
+
+
+    public enum Direction
+    {
+        NotMove,
+        Up,
+        Down,
+        Right,
+        Left,
+    }
+    public Direction direction = Direction.Right;
+
+
     private void Awake()
     {
         cameraOffset = transform.position - cameraTr.position;
@@ -37,18 +52,13 @@ public class Player : MonoBehaviour
 
 
         // 문제5) (20점) : Player 이동 방향을 바라보도록 (상하좌우)스프라이트를 설정하시오.
-        // 왼쪽은 오른쪽 이미지를 Flip해서 구현하시오.
         UpdateSprite(move);
     }
 
-    public float cameraSmoothLerp = 0.1f;
     private void MoveCamera()
     {
         cameraTr.position = Vector3.Lerp(cameraTr.position, transform.position - cameraOffset, cameraSmoothLerp);
     }
-
-
-    public Direction direction = Direction.Right;
     private Vector2 Move()
     {
         Direction currentDirection = Direction.NotMove;
@@ -79,18 +89,9 @@ public class Player : MonoBehaviour
         }
     }
 
-    public enum Direction
-    {
-        NotMove,
-        Up, 
-        Down,
-        Right,
-        Left,
-    }
-    public string clipName;
     private void UpdateSprite(Vector2 move)
     {
-        clipName = string.Empty;
+        string clipName = string.Empty;
         // move의 크기가 0보다 크면 forward방향으로 이동하는 모션을 보여주자.
         // 이동하지 않으면 없으면 Idle모션을 보여주자.
         if ( move.sqrMagnitude > 0) ////이동이 있다(Walk)
