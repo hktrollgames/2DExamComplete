@@ -41,9 +41,10 @@ public class Player : MonoBehaviour
         UpdateSprite(move);
     }
 
+    public float cameraSmoothLerp = 0.1f;
     private void MoveCamera()
     {
-        cameraTr.position = transform.position - cameraOffset;
+        cameraTr.position = Vector3.Lerp(cameraTr.position, transform.position - cameraOffset, cameraSmoothLerp);
     }
 
 
