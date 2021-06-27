@@ -53,7 +53,7 @@ public class Player : MonoBehaviour
         FireArrow();
 
 
-        // 문제5) (15점) : Player 이동 방향을 바라보도록 (상하좌우)스프라이트를 설정하시오.
+        // 문제6) (15점) : Player 이동 방향을 바라보도록 (상하좌우)스프라이트를 설정하시오.
         UpdateSprite(move);
     }
 
